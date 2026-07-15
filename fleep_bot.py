@@ -13,7 +13,7 @@ from telegram.ext import (
     CallbackQueryHandler, ContextTypes, ConversationHandler, filters
 )
 
-BOT_TOKEN      = "8700173300:AAFguL_dEKOSUvOep_7iK1MIaiTaaFex2bg"
+BOT_TOKEN      = "8700173300:AAHBHW2XRC4LE8A9rxf5layAOdeLljul1Vs"
 ADMIN_USERNAME = "m16el1n0"
 ADMIN_SECRET   = "fleep_admin_2026"
 WEB_APP_URL    = "https://t.me/fleep_gift_bot/GAME"
