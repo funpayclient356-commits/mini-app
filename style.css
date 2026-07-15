@@ -4665,3 +4665,29 @@ body.game-open {
 .spin-prize-icon { animation: spinPrizePulse .6s cubic-bezier(.2,1.4,.4,1) both; }
 .case-card { transition: transform .2s ease, box-shadow .2s ease; }
 .case-card:hover { transform: translateY(-4px) scale(1.02); }
+
+/* ===== Цвета новых кейсов (200–5000) ===== */
+.case-top-blue    { background: linear-gradient(135deg, #0c2d5a, #1e4d8c, #2f6fd0); border-bottom:1px solid rgba(96,165,250,0.3); }
+.case-card-blue   { border-color: rgba(96,165,250,0.4); box-shadow:0 4px 20px rgba(59,130,246,0.15); }
+.case-card-blue:hover  { box-shadow:0 8px 32px rgba(59,130,246,0.35); border-color: rgba(96,165,250,0.8); }
+.case-card-blue .case-pixel-icon   { filter: drop-shadow(0 0 10px rgba(96,165,250,0.85)); }
+
+.case-top-violet  { background: linear-gradient(135deg, #3b0a5a, #6b21a8, #a855f7); border-bottom:1px solid rgba(192,132,252,0.3); }
+.case-card-violet { border-color: rgba(192,132,252,0.4); box-shadow:0 4px 20px rgba(168,85,247,0.15); }
+.case-card-violet:hover { box-shadow:0 8px 32px rgba(168,85,247,0.35); border-color: rgba(192,132,252,0.8); }
+.case-card-violet .case-pixel-icon { filter: drop-shadow(0 0 10px rgba(192,132,252,0.85)); }
+
+.case-top-crown   { background: linear-gradient(135deg, #4d3606, #a97a12, #fcd34d); border-bottom:1px solid rgba(252,211,77,0.35); }
+.case-card-crown  { border-color: rgba(252,211,77,0.45); box-shadow:0 4px 20px rgba(252,211,77,0.18); }
+.case-card-crown:hover  { box-shadow:0 8px 34px rgba(252,211,77,0.4); border-color: rgba(252,211,77,0.9); }
+.case-card-crown .case-pixel-icon  { filter: drop-shadow(0 0 12px rgba(252,211,77,0.95)); }
+
+.case-top-teal    { background: linear-gradient(135deg, #063d3a, #0d7a72, #2dd4bf); border-bottom:1px solid rgba(45,212,191,0.3); }
+.case-card-teal   { border-color: rgba(45,212,191,0.4); box-shadow:0 4px 20px rgba(20,184,166,0.15); }
+.case-card-teal:hover  { box-shadow:0 8px 32px rgba(20,184,166,0.35); border-color: rgba(45,212,191,0.85); }
+.case-card-teal .case-pixel-icon   { filter: drop-shadow(0 0 12px rgba(45,212,191,0.9)); }
+
+.case-top-crimson { background: linear-gradient(135deg, #4a0410, #9f1239, #f43f5e); border-bottom:1px solid rgba(244,63,94,0.35); }
+.case-card-crimson{ border-color: rgba(244,63,94,0.45); box-shadow:0 4px 22px rgba(244,63,94,0.2); }
+.case-card-crimson:hover { box-shadow:0 8px 36px rgba(244,63,94,0.45); border-color: rgba(244,63,94,0.95); }
+.case-card-crimson .case-pixel-icon{ filter: drop-shadow(0 0 14px rgba(244,63,94,1)); }
