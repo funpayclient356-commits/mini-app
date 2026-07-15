@@ -617,11 +617,22 @@ function createGameBoard() {
         const cell = document.createElement('div');
         cell.className = 'cell';
         cell.dataset.index = i;
-        cell.innerHTML = '<span class="cell-f-letter">F</span>';
+        cell.innerHTML = minesCellIconHTML();
         cell.addEventListener('click', () => revealCell(i));
         grid.appendChild(cell);
         gameState.gameBoard.push({ isMine: false, isRevealed: false, element: cell });
     }
+}
+
+// Иконка-обложка клетки мин: случайный NFT-токен вместо флип-коина
+function minesCellIconHTML() {
+    try {
+        if (typeof NFT_GIFTS !== 'undefined' && NFT_GIFTS.length) {
+            const g = NFT_GIFTS[Math.floor(Math.random() * NFT_GIFTS.length)];
+            return '<img class="cell-nft-img" src="' + g.img + '" alt="">';
+        }
+    } catch (e) {}
+    return '<span class="cell-f-letter">F</span>';
 }
 
 function placeMines() {
@@ -1792,33 +1803,32 @@ const CASE_GIFT_POOLS = {
         { type:'nft_crystal_ball', name:'Хрустальный шар', emoji:'🔮', value:0, tier:'legendary', isNFT:true, displayPct:1, weight:0.3 },
     ],
     stars500: [
-        { type:'coin300', name:'300 F', emoji:'⭐', value:300,  tier:'common',    displayPct:45, weight:45 },
-        { type:'coin600', name:'600 F', emoji:'⭐', value:600,  tier:'common',    displayPct:20, weight:18 },
-        { type:'rose',    name:'Роза',  emoji:'🌹', value:25,   tier:'rare',      displayPct:14, weight:14 },
-        { type:'rocket',  name:'Ракета',emoji:'🚀', value:100,  tier:'epic',      displayPct:10, weight:8  },
-        { type:'diamond', name:'Алмаз', emoji:'💎', value:1000, tier:'legendary', displayPct:9,  weight:4  },
-        { type:'nft_diamond_ring', name:'Кольцо с бриллиантом', emoji:'💍', value:0, tier:'legendary', isNFT:true, displayPct:2, weight:0.4 },
+        { type:'nft_bow_tie',      name:'Бабочка',       emoji:'🎀', value:200,  tier:'rare',      isNFT:true, displayPct:34, weight:40 },
+        { type:'nft_cookie_heart', name:'Печенька-сердце',emoji:'🍪', value:300,  tier:'rare',      isNFT:true, displayPct:24, weight:26 },
+        { type:'nft_candle_lamp',  name:'Лампа-свеча',   emoji:'🕯️', value:450,  tier:'epic',      isNFT:true, displayPct:20, weight:18 },
+        { type:'nft_perfume_bottle',name:'Флакон духов', emoji:'🧴', value:700,  tier:'epic',      isNFT:true, displayPct:14, weight:10 },
+        { type:'nft_diamond_ring', name:'Кольцо с бриллиантом', emoji:'💍', value:1500, tier:'legendary', isNFT:true, displayPct:8, weight:6 },
     ],
     stars1000: [
-        { type:'coin600',  name:'600 F',  emoji:'⭐', value:600,  tier:'common',    displayPct:40, weight:40 },
-        { type:'coin1000', name:'1000 F', emoji:'⭐', value:1000, tier:'common',    displayPct:22, weight:18 },
-        { type:'rocket',   name:'Ракета', emoji:'🚀', value:100,  tier:'epic',      displayPct:16, weight:14 },
-        { type:'diamond',  name:'Алмаз',  emoji:'💎', value:1000, tier:'legendary', displayPct:16, weight:8  },
-        { type:'nft_durovs_cap', name:'Кепка Дурова', emoji:'🧢', value:0, tier:'legendary', isNFT:true, displayPct:6, weight:0.5 },
+        { type:'nft_candle_lamp',  name:'Лампа-свеча',   emoji:'🕯️', value:450,  tier:'epic',      isNFT:true, displayPct:34, weight:40 },
+        { type:'nft_perfume_bottle',name:'Флакон духов', emoji:'🧴', value:700,  tier:'epic',      isNFT:true, displayPct:24, weight:26 },
+        { type:'nft_swiss_watch',  name:'Швейцарские часы',emoji:'⌚', value:1200, tier:'epic',     isNFT:true, displayPct:20, weight:18 },
+        { type:'nft_diamond_ring', name:'Кольцо с бриллиантом', emoji:'💍', value:1800, tier:'legendary', isNFT:true, displayPct:14, weight:10 },
+        { type:'nft_durovs_cap',   name:'Кепка Дурова',  emoji:'🧢', value:3500, tier:'legendary', isNFT:true, displayPct:8, weight:6 },
     ],
     stars2000: [
-        { type:'coin1000', name:'1000 F', emoji:'⭐', value:1000, tier:'common',    displayPct:38, weight:38 },
-        { type:'coin1500', name:'1500 F', emoji:'⭐', value:1500, tier:'common',    displayPct:24, weight:20 },
-        { type:'rocket',   name:'Ракета', emoji:'🚀', value:100,  tier:'epic',      displayPct:18, weight:15 },
-        { type:'diamond',  name:'Алмаз',  emoji:'💎', value:1000, tier:'legendary', displayPct:14, weight:9  },
-        { type:'nft_electric_skull', name:'Электро-череп', emoji:'💀', value:0, tier:'legendary', isNFT:true, displayPct:6, weight:0.5 },
+        { type:'nft_swiss_watch',  name:'Швейцарские часы',emoji:'⌚', value:1200, tier:'epic',      isNFT:true, displayPct:32, weight:38 },
+        { type:'nft_top_hat',      name:'Цилиндр',        emoji:'🎩', value:1800, tier:'epic',      isNFT:true, displayPct:24, weight:26 },
+        { type:'nft_diamond_ring', name:'Кольцо с бриллиантом', emoji:'💍', value:2600, tier:'legendary', isNFT:true, displayPct:22, weight:18 },
+        { type:'nft_electric_skull',name:'Электро-череп', emoji:'💀', value:4200, tier:'legendary', isNFT:true, displayPct:14, weight:10 },
+        { type:'nft_durovs_cap',   name:'Кепка Дурова',  emoji:'🧢', value:6000, tier:'legendary', isNFT:true, displayPct:8, weight:5 },
     ],
     stars5000: [
-        { type:'coin2500', name:'2500 F', emoji:'⭐', value:2500, tier:'common',    displayPct:36, weight:36 },
-        { type:'coin4000', name:'4000 F', emoji:'⭐', value:4000, tier:'common',    displayPct:22, weight:18 },
-        { type:'diamond',  name:'Алмаз',  emoji:'💎', value:1000, tier:'legendary', displayPct:22, weight:14 },
-        { type:'coin7000', name:'7000 F', emoji:'⭐', value:7000, tier:'legendary', displayPct:12, weight:6  },
-        { type:'nft_plush_pepe', name:'Плюшевый Пепе', emoji:'🐸', value:0, tier:'legendary', isNFT:true, displayPct:8, weight:1 },
+        { type:'nft_top_hat',       name:'Цилиндр',        emoji:'🎩', value:1800,  tier:'epic',      isNFT:true, displayPct:30, weight:36 },
+        { type:'nft_electric_skull',name:'Электро-череп',  emoji:'💀', value:4200,  tier:'legendary', isNFT:true, displayPct:24, weight:26 },
+        { type:'nft_khabibs_papakha',name:'Папаха Хабиба', emoji:'🧕', value:7000,  tier:'legendary', isNFT:true, displayPct:22, weight:18 },
+        { type:'nft_durovs_cap',    name:'Кепка Дурова',   emoji:'🧢', value:12000, tier:'legendary', isNFT:true, displayPct:16, weight:10 },
+        { type:'nft_plush_pepe',    name:'Плюшевый Пепе',  emoji:'🐸', value:25000, tier:'legendary', isNFT:true, displayPct:8, weight:4 },
     ],
     stars25: [
         { type:'coin5',   name:'5 F',   emoji:'⭐', value:5,   tier:'common',    displayPct:30, weight:50 },

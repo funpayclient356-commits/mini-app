@@ -4691,3 +4691,33 @@ body.game-open {
 .case-card-crimson{ border-color: rgba(244,63,94,0.45); box-shadow:0 4px 22px rgba(244,63,94,0.2); }
 .case-card-crimson:hover { box-shadow:0 8px 36px rgba(244,63,94,0.45); border-color: rgba(244,63,94,0.95); }
 .case-card-crimson .case-pixel-icon{ filter: drop-shadow(0 0 14px rgba(244,63,94,1)); }
+
+/* ═══ Мины: NFT-обложка клеток ═══ */
+.cell-nft-img {
+    width: 74%;
+    height: 74%;
+    object-fit: contain;
+    opacity: 0.3;
+    filter: grayscale(0.4) brightness(0.8);
+    pointer-events: none;
+    user-select: none;
+    transition: opacity .2s, filter .2s, transform .2s;
+}
+.cell.revealed.safe .cell-nft-img,
+.cell.safe .cell-nft-img {
+    opacity: 1;
+    filter: none;
+    transform: scale(1.06);
+    animation: gemGlow 1s infinite alternate;
+}
+.cell.mine .cell-nft-img { opacity: 0; }
+.cell.mine::after {
+    content: '💣';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    animation: bombShake 0.5s;
+}
