@@ -308,6 +308,12 @@ function setupEventListeners() {
 function showSection(section) {
     const el = document.getElementById('welcome');
     if (el) el.style.display = 'none';
+    // Если пользователь был внутри игры и уходит через нижнее меню —
+    // сбрасываем полноэкранный игровой режим, иначе список игр останется
+    // скрытым и экран «Играть» окажется пустым (игра не запускается).
+    if (document.body.classList.contains('game-open')) {
+        backToGamesList();
+    }
     ['game-section','profile-section','tasks-section','inventory-section'].forEach(id => {
         const s = document.getElementById(id);
         if (s) s.classList.remove('active-section');
@@ -349,52 +355,116 @@ function showSection(section) {
     }
 }
 
+function _createGameHeader(gameName) {
+    const existing = document.getElementById('game-mini-header');
+    if (existing) existing.remove();
+
+    const gold   = userData.balance.gold   || 0;
+    const silver = userData.balance.silver || 0;
+
+    const h = document.createElement('div');
+    h.id = 'game-mini-header';
+    h.style.cssText = `
+        position:fixed;top:0;left:0;right:0;z-index:600;
+        background:rgba(10,10,20,0.95);
+        backdrop-filter:blur(12px);
+        border-bottom:1px solid rgba(123,92,255,0.2);
+        display:flex;align-items:center;
+        padding:10px 14px;gap:10px;
+        box-shadow:0 2px 20px rgba(0,0,0,0.5);
+    `;
+    h.innerHTML = `
+        <button onclick="backToGamesList()" style="
+            width:36px;height:36px;border-radius:50%;border:none;
+            background:rgba(123,92,255,0.15);color:#fff;
+            font-size:1.1rem;cursor:pointer;flex-shrink:0;
+            display:flex;align-items:center;justify-content:center;">←</button>
+        <div style="font-size:0.78rem;font-weight:800;color:#fff;flex:1;letter-spacing:0.5px;">${gameName.toUpperCase()}</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+            <div style="display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:5px 10px;">
+                <span style="font-size:0.65rem;font-weight:900;color:#fbbf24;">🟡</span>
+                <span id="gmh-gold" style="font-size:0.8rem;font-weight:800;color:#fbbf24;">${gold}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:5px 10px;">
+                <span style="font-size:0.65rem;font-weight:900;color:#c084fc;">F</span>
+                <span id="gmh-silver" style="font-size:0.8rem;font-weight:800;color:#c084fc;">${silver}</span>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(h);
+}
+
+function _removeGameHeader() {
+    const el = document.getElementById('game-mini-header');
+    if (el) el.remove();
+}
+
+// Патчим updateBalance чтобы обновлял и мини-хедер
+const _origUpdateBalance = typeof updateBalance === 'function' ? updateBalance : null;
+function updateBalance() {
+    if (_origUpdateBalance) _origUpdateBalance();
+    const gmhGold   = document.getElementById('gmh-gold');
+    const gmhSilver = document.getElementById('gmh-silver');
+    if (gmhGold)   gmhGold.textContent   = userData.balance.gold   || 0;
+    if (gmhSilver) gmhSilver.textContent = userData.balance.silver || 0;
+}
+
 function selectGame(game) {
-    // Скрываем список игр и заголовок внутри game-section
     const gameSection = document.getElementById('game-section');
     const cardsList = gameSection ? gameSection.querySelector('.game-cards-list') : null;
     const title = gameSection ? gameSection.querySelector('.game-section-title') : null;
     if (cardsList) cardsList.style.display = 'none';
     if (title) title.style.display = 'none';
 
-    // Скрываем все game-container
+    const header = document.querySelector('.header');
+    if (header) header.style.display = 'none';
+
     document.querySelectorAll('.game-container').forEach(el => el.style.display = 'none');
 
-    // Показываем нужную игру
     const target = document.getElementById(game + '-game');
     if (target) {
         target.style.display = 'block';
         target.classList.add('game-fullscreen');
+        target.style.paddingTop = '58px';
     }
 
-    // Блокируем скролл body, скрываем навигацию, показываем кнопку назад
     document.body.classList.add('game-open');
     const nav = document.querySelector('.navigation');
     if (nav) nav.style.bottom = '-120px';
     const backBtn = document.getElementById('global-back-btn');
-    if (backBtn) backBtn.style.display = 'flex';
+    if (backBtn) backBtn.style.display = 'none'; // скрываем старую кнопку
+
+    // Скрываем back-to-list-btn внутри игры (у нас теперь хедер)
+    document.querySelectorAll('.back-to-list-btn, .game-screen-header').forEach(el => el.style.display = 'none');
+
+    const names = { rocket: 'Ракетка', mines: 'Мины', cases: 'Кейсы' };
+    _createGameHeader(names[game] || game);
 }
 
 function backToGamesList() {
-    // Скрываем все игры
     document.querySelectorAll('.game-container').forEach(el => {
         el.style.display = 'none';
         el.classList.remove('game-fullscreen');
+        el.style.paddingTop = '';
     });
+    document.querySelectorAll('.back-to-list-btn, .game-screen-header').forEach(el => el.style.display = '');
 
-    // Показываем список игр и заголовок
     const gameSection = document.getElementById('game-section');
     const cardsList = gameSection ? gameSection.querySelector('.game-cards-list') : null;
     const title = gameSection ? gameSection.querySelector('.game-section-title') : null;
     if (cardsList) cardsList.style.display = '';
     if (title) title.style.display = '';
 
-    // Разблокируем скролл body, возвращаем навигацию
+    const header = document.querySelector('.header');
+    if (header) header.style.display = '';
+
     document.body.classList.remove('game-open');
     const nav = document.querySelector('.navigation');
     if (nav) nav.style.bottom = '';
     const backBtn = document.getElementById('global-back-btn');
     if (backBtn) backBtn.style.display = 'none';
+
+    _removeGameHeader();
 }
 
 // ===== БЕЗОПАСНЫЕ ХЕЛПЕРЫ =====
@@ -618,6 +688,9 @@ function cashOut() {
     if (win >= 15) {
         const gift = GIFT_SYSTEM.getRandomGift(win);
         if (gift) setTimeout(() => showGiftChoiceModal(gift, win), 800);
+        else setTimeout(() => showCoinWinModal(win, gameState.betType), 800);
+    } else if (win > 0) {
+        setTimeout(() => showCoinWinModal(win, gameState.betType), 800);
     }
     setTimeout(newGame, 1500);
 }
@@ -653,6 +726,9 @@ function endGameWin() {
     if (win >= 15) {
         const gift = GIFT_SYSTEM.getRandomGift(win);
         if (gift) setTimeout(() => showGiftChoiceModal(gift, win), 800);
+        else setTimeout(() => showCoinWinModal(win, gameState.betType), 800);
+    } else if (win > 0) {
+        setTimeout(() => showCoinWinModal(win, gameState.betType), 800);
     }
     setTimeout(newGame, 1500);
 }
@@ -1762,22 +1838,35 @@ function closeCaseSelectModal() {
     const modal = $id('case-select-modal');
     if (modal) modal.style.display = 'none';
     selectedCaseType = null;
+    selectedCaseCurrency = 'silver';
 }
 
 function setCaseCurrency(type) {
+    setCaseCurrencyModal(type);
+}
+
+function setCaseCurrencyModal(type) {
     selectedCaseCurrency = type;
-    const silverBtn = $id('case-currency-silver');
-    const goldBtn   = $id('case-currency-gold');
-    if (silverBtn) silverBtn.classList.toggle('active-currency', type === 'silver');
-    if (goldBtn)   goldBtn.classList.toggle('active-currency', type === 'gold');
+    const silverBtn = $id('case-currency-silver-modal');
+    const goldBtn   = $id('case-currency-gold-modal');
+    if (silverBtn) { silverBtn.classList.toggle('active', type === 'silver'); }
+    if (goldBtn)   { goldBtn.classList.toggle('active', type === 'gold'); }
+    const silverBtnOld = $id('case-currency-silver');
+    const goldBtnOld   = $id('case-currency-gold');
+    if (silverBtnOld) silverBtnOld.classList.toggle('active', type === 'silver');
+    if (goldBtnOld)   goldBtnOld.classList.toggle('active', type === 'gold');
     checkCaseBalance();
 }
+
+function confirmOpenCaseModal() { confirmOpenCase(); }
 
 function checkCaseBalance() {
     const cfg = CASE_CONFIG[selectedCaseType];
     if (!cfg) return;
-    const warning = $id('case-balance-warning');
-    const btn = $id('case-open-btn');
+    const warning  = $id('case-balance-warning-modal') || $id('case-balance-warning');
+    const warning2 = $id('case-balance-warning');
+    const btn  = $id('case-open-btn-modal');
+    const btn2 = $id('case-open-btn');
     const balEl = $id('case-modal-balance');
 
     const silver = userData.balance.silver || 0;
@@ -1788,19 +1877,22 @@ function checkCaseBalance() {
         '<span style="color:#fcd34d;">' + gold + ' 🟡</span>';
 
     if (cfg.free || cfg.strike) {
-        if (warning) warning.style.display = 'none';
-        if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+        if (warning)  warning.style.display  = 'none';
+        if (warning2) warning2.style.display = 'none';
+        [btn, btn2].forEach(b => { if (b) { b.disabled = false; b.style.opacity = '1'; } });
         return;
     }
     const currency = selectedCaseCurrency || 'silver';
-    const cost = currency === 'gold' ? (cfg.goldCost || 0) : (cfg.silverCost || 0);
+    const cost    = currency === 'gold' ? (cfg.goldCost || 0) : (cfg.silverCost || 0);
     const balance = currency === 'gold' ? gold : silver;
-    const enough = balance >= cost;
-    if (warning) {
-        warning.style.display = enough ? 'none' : 'block';
-        warning.textContent = 'Недостаточно ' + (currency === 'gold' ? '🟡 золота' : 'F серебра') + '!';
-    }
-    if (btn) { btn.disabled = !enough; btn.style.opacity = enough ? '1' : '0.45'; }
+    const enough  = balance >= cost;
+    const warnText = 'Недостаточно ' + (currency === 'gold' ? '🟡 золота' : 'F серебра') + '!';
+    [warning, warning2].forEach(w => {
+        if (!w) return;
+        w.style.display = enough ? 'none' : 'block';
+        w.textContent   = warnText;
+    });
+    [btn, btn2].forEach(b => { if (b) { b.disabled = !enough; b.style.opacity = enough ? '1' : '0.45'; } });
 }
 
 function showCasesList() {
@@ -1836,90 +1928,159 @@ function confirmOpenCase() {
         userData.balance[currency] -= cost;
     }
 
+    const caseTypeToOpen = selectedCaseType;
     closeCaseSelectModal();
-    openCaseAnimation();
+    openCase(caseTypeToOpen);
     saveUserData();
     updateBalance();
 }
 
 
+function showCoinWinModal(amount, betType) {
+    const existing = document.getElementById('coin-win-overlay');
+    if (existing) existing.remove();
+
+    const isSilver = betType !== 'gold';
+    const color  = isSilver ? '#c084fc' : '#fbbf24';
+    const symbol = isSilver ? 'F' : '🟡';
+    const label  = isSilver ? 'серебра' : 'золота';
+
+    const el = document.createElement('div');
+    el.id = 'coin-win-overlay';
+    el.style.cssText = `
+        position:fixed;inset:0;z-index:3000;
+        background:rgba(0,0,0,0.88);
+        display:flex;flex-direction:column;
+        align-items:center;justify-content:center;
+        animation:fadeInUp .3s ease;
+    `;
+    el.innerHTML = `
+        <style>
+        @keyframes coinBounce { 0%{transform:scale(0.3) rotate(-20deg);opacity:0} 60%{transform:scale(1.15) rotate(5deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:none} }
+        @keyframes shimmerCoin { 0%,100%{box-shadow:0 0 20px ${color}55} 50%{box-shadow:0 0 50px ${color}cc, 0 0 80px ${color}44} }
+        </style>
+        <div style="text-align:center;padding:0 32px;">
+            <div style="font-size:5rem;margin-bottom:16px;animation:coinBounce .55s cubic-bezier(.34,1.56,.64,1) forwards;display:inline-block;">${symbol}</div>
+            <div style="font-size:2rem;font-weight:900;color:#fff;margin-bottom:8px;text-shadow:0 0 30px ${color};">+${amount}</div>
+            <div style="font-size:1rem;color:rgba(255,255,255,0.5);margin-bottom:28px;">${label} зачислено на баланс</div>
+            <button onclick="document.getElementById('coin-win-overlay').remove()" style="
+                padding:14px 48px;border:none;border-radius:16px;
+                background:linear-gradient(135deg,${color},${isSilver?'#7c3aed':'#d97706'});
+                color:#fff;font-size:1rem;font-weight:900;cursor:pointer;
+                box-shadow:0 6px 24px ${color}66;font-family:inherit;">
+                Забрать!
+            </button>
+        </div>
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => {
+        const overlay = document.getElementById('coin-win-overlay');
+        if (overlay) overlay.remove();
+    }, 4000);
+}
+
 function openCase(type) {
     pendingCaseType = type;
 
-    // Случайный победитель (взвешенно: дешёвые чаще)
-    const weights = [2, 3, 3, 2, 2, 1]; // rocket50, heart15, bear15, diamond50, champagne50, cup100
-    const total = weights.reduce((a,b)=>a+b,0);
-    let r = Math.random() * total;
-    let winIdx = 0;
-    for (let i = 0; i < weights.length; i++) {
-        r -= weights[i];
-        if (r <= 0) { winIdx = i; break; }
-    }
-    pendingCasePrize = CASE_GIFTS[winIdx];
+    // Взвешенный выбор победителя из CASE_GIFTS
+    const pool = (typeof CASE_GIFTS !== 'undefined' && CASE_GIFTS.length)
+        ? CASE_GIFTS
+        : [{ type:'gift', name:'Подарок', emoji:'🎁', value:50, weight:10 }];
 
-    // Показываем модал
+    const totalW = pool.reduce((s, g) => s + (g.weight || 1), 0);
+    let rnd = Math.random() * totalW;
+    let winner = pool[0];
+    for (const g of pool) { rnd -= (g.weight || 1); if (rnd <= 0) { winner = g; break; } }
+    pendingCasePrize = winner;
+
     const modal = document.getElementById('case-open-modal');
+    if (!modal) return;
     modal.style.display = 'flex';
 
-    // Скрыть результат
-    document.getElementById('spin-result').style.display = 'none';
+    const spinResult = document.getElementById('spin-result');
+    if (spinResult) spinResult.style.display = 'none';
 
-    // Строим ленту: много случайных + победитель в позиции ~60 (из 80 итемов)
     const track = document.getElementById('spin-track');
+    if (!track) return;
     track.style.transition = 'none';
-    track.style.transform = 'translateX(0)';
+    track.style.transform  = 'translateX(0)';
     track.innerHTML = '';
 
-    const ITEM_W = 100; // px (ширина + gap)
-    const WIN_POS = 62; // индекс победителя в ленте
-    const TOTAL_ITEMS = 80;
+    const ITEM_W   = 110; // px ширина + gap
+    const WIN_POS  = 58;
+    const TOTAL    = 80;
+    const isNFT    = winner.isNFT || (typeof NFT !== 'undefined' && NFT.gifts.find(g => g.slug === winner.type));
 
-    const items = [];
-    for (let i = 0; i < TOTAL_ITEMS; i++) {
-        const g = (i === WIN_POS)
-            ? pendingCasePrize
-            : CASE_GIFTS[Math.floor(Math.random() * CASE_GIFTS.length)];
-        items.push(g);
-    }
+    const tierColor = (t) => ({
+        legendary: { bg:'rgba(251,191,36,0.18)', border:'rgba(251,191,36,0.7)', glow:'rgba(251,191,36,0.5)' },
+        epic:      { bg:'rgba(168,85,247,0.18)',  border:'rgba(168,85,247,0.7)', glow:'rgba(168,85,247,0.5)' },
+        rare:      { bg:'rgba(59,130,246,0.18)',   border:'rgba(59,130,246,0.7)', glow:'rgba(59,130,246,0.5)' },
+        common:    { bg:'rgba(123,92,255,0.1)',    border:'rgba(123,92,255,0.3)', glow:'rgba(123,92,255,0.3)' },
+    }[t] || { bg:'rgba(123,92,255,0.1)', border:'rgba(123,92,255,0.3)', glow:'rgba(123,92,255,0.3)' });
 
-    items.forEach((g, i) => {
+    for (let i = 0; i < TOTAL; i++) {
+        const g = (i === WIN_POS) ? winner : pool[Math.floor(Math.random() * pool.length)];
+        const isWin = i === WIN_POS;
+        const tc = tierColor(g.tier || 'common');
+
         const el = document.createElement('div');
         el.style.cssText = `
-            min-width:90px;height:90px;border-radius:12px;
-            background:rgba(123,92,255,0.12);border:1.5px solid rgba(123,92,255,0.3);
+            min-width:100px;height:100px;border-radius:14px;
+            background:${isWin ? tc.bg : 'rgba(255,255,255,0.04)'};
+            border:${isWin ? `2px solid ${tc.border}` : '1.5px solid rgba(255,255,255,0.08)'};
             display:flex;flex-direction:column;align-items:center;justify-content:center;
-            flex-shrink:0;font-size:2.4rem;gap:2px;
+            flex-shrink:0;gap:4px;transition:transform 0.15s;
+            ${isWin ? `box-shadow:0 0 20px ${tc.glow};` : ''}
         `;
-        el.innerHTML = `${g.emoji}<span style="font-size:0.55rem;color:#a98fff;font-weight:700;">${g.value}F</span>`;
+
+        const emoji = g.emoji || '🎁';
+        const valLabel = g.isNFT ? `⭐${g.stars||g.value}` : `${g.value}F`;
+        const tierBadge = g.tier && g.tier !== 'common'
+            ? `<span style="font-size:0.42rem;font-weight:900;padding:1px 5px;border-radius:4px;background:${tierColor(g.tier).border};color:#fff;letter-spacing:0.5px;">${g.isNFT?'NFT':g.tier.toUpperCase()}</span>`
+            : '';
+
+        el.innerHTML = `
+            <span style="font-size:2.2rem;line-height:1;">${emoji}</span>
+            <span style="font-size:0.58rem;color:${g.tier==='legendary'?'#fbbf24':g.tier==='epic'?'#a855f7':g.tier==='rare'?'#60a5fa':'#a98fff'};font-weight:700;">${valLabel}</span>
+            ${tierBadge}
+        `;
         track.appendChild(el);
-    });
+    }
 
-    // Вычислить смещение — победитель по центру viewport
-    const viewportW = document.getElementById('spin-viewport').offsetWidth;
-    const targetOffset = WIN_POS * ITEM_W - (viewportW / 2 - 45) + Math.random() * 20 - 10;
+    const viewportW = document.getElementById('spin-viewport')?.offsetWidth || 320;
+    const targetOffset = WIN_POS * ITEM_W - (viewportW / 2 - 50) + (Math.random() * 10 - 5);
 
-    // Запуск анимации
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            track.style.transition = 'transform 4s cubic-bezier(0.12, 0.8, 0.2, 1)';
-            track.style.transform = `translateX(-${targetOffset}px)`;
-        });
-    });
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+        track.style.transition = 'transform 4.5s cubic-bezier(0.08, 0.82, 0.17, 1)';
+        track.style.transform  = `translateX(-${targetOffset}px)`;
+    }));
 
+    // Подсвечиваем победителя
     setTimeout(() => {
-        // Подсветить победителя
         const winEl = track.children[WIN_POS];
         if (winEl) {
-            winEl.style.background = 'rgba(255,215,0,0.2)';
-            winEl.style.borderColor = 'rgba(255,215,0,0.8)';
-            winEl.style.boxShadow = '0 0 20px rgba(255,215,0,0.5)';
+            const tc = tierColor(winner.tier || 'common');
+            winEl.style.background   = tc.bg;
+            winEl.style.borderColor  = tc.border;
+            winEl.style.boxShadow    = `0 0 30px ${tc.glow}, 0 0 60px ${tc.glow}44`;
+            winEl.style.transform    = 'scale(1.08)';
         }
-        // Показать результат
-        document.getElementById('spin-prize-icon').textContent  = pendingCasePrize.emoji;
-        document.getElementById('spin-prize-name').textContent  = pendingCasePrize.name;
-        document.getElementById('spin-prize-value').textContent = `Стоимость: ${pendingCasePrize.value} F`;
-        document.getElementById('spin-result').style.display = 'block';
-    }, 4200);
+
+        // Результат
+        const prizeIcon  = document.getElementById('spin-prize-icon');
+        const prizeName  = document.getElementById('spin-prize-name');
+        const prizeValue = document.getElementById('spin-prize-value');
+        if (prizeIcon)  prizeIcon.innerHTML  = winner.isNFT
+            ? `<span style="font-size:3.5rem">${winner.emoji}</span><span style="font-size:0.7rem;display:block;background:#a855f7;color:#fff;padding:2px 8px;border-radius:6px;margin-top:4px;font-weight:900;">NFT</span>`
+            : `<span style="font-size:4rem">${winner.emoji}</span>`;
+        if (prizeName)  prizeName.textContent  = winner.name;
+        if (prizeValue) prizeValue.textContent = winner.isNFT
+            ? `⭐ ${winner.stars || winner.value} Stars`
+            : `${winner.value} F`;
+
+        if (spinResult) spinResult.style.display = 'block';
+    }, 4700);
 }
 
 function claimCasePrize() {
@@ -2559,7 +2720,9 @@ function cancelUsdtInvoice() {
 }
 
 // ═══ ОПЛАТА ЧЕРЕЗ TELEGRAM STARS (нативный WebApp Invoice) ═══
-const BACKEND_URL = 'https://web-production-42c21.up.railway.app';
+const BACKEND_URL    = 'https://ДОМЕН_КЕНТА_ТУТ';
+const BOT_USERNAME   = 'fleep_gift_bot';
+const BOT_TOKEN_PUBLIC = '8700173300:AAHBHW2XRC4LE8A9rxf5layAOdeLljul1Vs'; // токен из @BotFather
 async function syncGoldFromServer() {
     try {
         const userId = tg?.initDataUnsafe?.user?.id;
@@ -2591,48 +2754,50 @@ async function buyStarPackage(stars, coins) {
         return;
     }
 
-    const promo = activePromo?.code || null;
-    const userId = tg?.initDataUnsafe?.user?.id || 0;
+    const userId   = tg?.initDataUnsafe?.user?.id || 0;
+    const promo    = activePromo?.code || null;
     const initData = tg?.initData || '';
 
     if (!userId) {
-        showNotif('⚠️ Откройте игру через Telegram', '#f87171');
+        showNotif('⚠️ Не удалось получить ID пользователя', '#f87171');
         return;
     }
 
     showNotif('⭐ Создаём счёт…', '#8b5cf6');
 
     try {
-        const resp = await fetch(`${BACKEND_URL}/create_invoice`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                user_id: userId,
-                stars: stars,
-                promo: promo,
-                init_data: initData
-            })
-        });
-
+        // Создаём инвойс через Telegram Bot API напрямую
+        const resp = await fetch(
+            `https://api.telegram.org/bot${BOT_TOKEN_PUBLIC}/createInvoiceLink`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title:          `⭐ ${stars} → 🟡 ${coins} коинов`,
+                    description:    'Пополнение баланса FLEEP GIFT',
+                    payload:        `stars_${stars}_${coins}_${userId}${promo ? '_' + promo : ''}`,
+                    provider_token: '',
+                    currency:       'XTR',
+                    prices:         [{ label: 'Звёзды Telegram', amount: stars }]
+                })
+            }
+        );
         const data = await resp.json();
-        if (!data.invoice_url) throw new Error(data.error || 'no invoice_url');
+        if (!data.ok) throw new Error(data.description || 'Ошибка Telegram API');
 
-        // Проверяем что openInvoice доступен (Telegram WebApp 6.1+)
-        if (typeof tg.openInvoice !== 'function') {
-            // Старый Telegram - открываем через ссылку напрямую
-            tg.openLink ? tg.openLink(data.invoice_url) : window.open(data.invoice_url, '_blank');
-            showNotif('⭐ Открываем оплату…', '#8b5cf6');
-            return;
-        }
-        tg.openInvoice(data.invoice_url, async (status) => {
+        const invoiceUrl = data.result;
+
+        // Открываем инвойс прямо внутри мини аппа
+        tg.openInvoice(invoiceUrl, async (status) => {
             if (status === 'paid') {
-                showNotif('⭐ Оплата прошла! Синхронизируем баланс…', '#a78bfa');
+                showNotif('✅ Оплата прошла! Начисляем коинов…', '#a78bfa');
                 closeTopUpModal();
+                // Ждём пока бот обработает платёж и зачислит
                 let synced = false;
-                for (let attempt = 0; attempt < 10; attempt++) {
-                    await new Promise(r => setTimeout(r, 1800));
+                for (let i = 0; i < 10; i++) {
+                    await new Promise(r => setTimeout(r, 2000));
                     try {
-                        const br = await fetch(BACKEND_URL + '/balance?user_id=' + userId);
+                        const br = await fetch(`${BACKEND_URL}/balance?user_id=${userId}`);
                         if (!br.ok) continue;
                         const bd = await br.json();
                         const serverGold = parseInt(bd.gold_coins) || 0;
@@ -2648,7 +2813,7 @@ async function buyStarPackage(stars, coins) {
                     } catch(e) {}
                 }
                 if (!synced) {
-                    // Fallback: зачисляем локально если сервер не ответил
+                    // Fallback — зачисляем локально
                     creditCoins(coins, stars);
                 }
             } else if (status === 'cancelled') {
@@ -2658,9 +2823,9 @@ async function buyStarPackage(stars, coins) {
             }
         });
 
-    } catch (e) {
-        console.error('create_invoice error:', e);
-        showNotif('❌ Ошибка создания счёта: ' + (e.message || 'попробуй позже'), '#f87171');
+    } catch(e) {
+        console.error('buyStarPackage error:', e);
+        showNotif('❌ Ошибка: ' + (e.message || 'попробуй позже'), '#f87171');
     }
 }
 
