@@ -777,11 +777,36 @@ function addToGameHistory(isWin, bet, win, coef) {
     updateGameHistory();
 }
 
+function openHistoryModal(game) {
+    const modal = document.getElementById('history-modal');
+    const mines = document.getElementById('history-list');
+    const rocket = document.getElementById('rocket-history-list');
+    const title = document.getElementById('history-modal-title');
+    if (!modal) return;
+    if (game === 'rocket') {
+        if (mines) mines.style.display = 'none';
+        if (rocket) rocket.style.display = 'flex';
+        if (title) title.innerHTML = '<i class="fas fa-history"></i> История — Ракетка';
+        if (typeof updateRocketHistory === 'function') updateRocketHistory();
+    } else {
+        if (rocket) rocket.style.display = 'none';
+        if (mines) mines.style.display = 'flex';
+        if (title) title.innerHTML = '<i class="fas fa-history"></i> История — Мины';
+        if (typeof updateGameHistory === 'function') updateGameHistory();
+    }
+    modal.classList.add('open');
+}
+
+function closeHistoryModal() {
+    const modal = document.getElementById('history-modal');
+    if (modal) modal.classList.remove('open');
+}
+
 function updateGameHistory() {
     const list = $id('history-list');
     if (!list) return;
     list.innerHTML = '';
-    (userData.gameHistory || []).slice(0, 10).forEach(game => {
+    (userData.gameHistory || []).slice(0, 30).forEach(game => {
         const d = new Date(game.timestamp);
         const time = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
         const item = document.createElement('div');
@@ -1282,7 +1307,7 @@ function updateRocketHistory() {
     const list = $id('rocket-history-list');
     if (!list) return;
     list.innerHTML = '';
-    (userData.rocketHistory || []).slice(0,10).forEach(g => {
+    (userData.rocketHistory || []).slice(0,30).forEach(g => {
         const d = new Date(g.timestamp);
         const time = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
         const item = document.createElement('div');

@@ -4721,3 +4721,89 @@ body.game-open {
     font-size: 1.6rem;
     animation: bombShake 0.5s;
 }
+
+/* ═══ Кнопка "История игр" снизу + модалка ═══ */
+.history-open-btn {
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 14px;
+    color: #aab;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background .18s, border-color .18s, color .18s;
+}
+.history-open-btn:hover { background: rgba(123,92,255,0.12); border-color: rgba(123,92,255,0.4); color: #fff; }
+.history-open-arrow { margin-left: auto; font-size: 1.3rem; opacity: 0.6; }
+
+.history-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 600;
+    background: rgba(0,0,0,0.72);
+    backdrop-filter: blur(3px);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+}
+.history-modal.open { display: flex; animation: fadeIn .2s ease; }
+.history-modal-card {
+    width: 100%;
+    max-width: 480px;
+    max-height: 82vh;
+    background: linear-gradient(180deg, #14141f, #0e0e16);
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-bottom: none;
+    padding: 18px 16px calc(20px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    animation: slideUp .28s cubic-bezier(.2,1,.3,1);
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.history-modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+.history-modal-head h3 { margin: 0; font-size: 1.05rem; color: #fff; }
+.history-modal-close {
+    background: rgba(255,255,255,0.06);
+    border: none;
+    color: #ccc;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.history-modal-list {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 2px;
+}
+
+/* ═══ Поле мин — крупнее, по центру ═══ */
+.mines-board-new { min-height: 58vh; justify-content: center; }
+.mines-grid-new {
+    max-width: min(86vw, 360px);
+    margin: 0 auto;
+    gap: 10px;
+}
+.mines-grid-new .cell { font-size: 1.9rem; border-radius: 14px; }
+.mines-cashout-btn { max-width: min(86vw, 400px); margin: 6px auto 0; }
+
+/* Настройки мин: контролы сверху, кнопка ИГРАТЬ у низа (чуть ниже середины) */
+.mines-settings-new { min-height: 58vh; }
+.mines-settings-new .mines-play-btn { margin-top: auto; }
