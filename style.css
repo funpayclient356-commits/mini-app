@@ -4346,7 +4346,7 @@ body[style*="background"] {
     overflow-y: auto !important;
     overflow-x: hidden !important;
     display: block !important;
-    padding-top: 0 !important;
+    padding-top: 64px !important;
     box-sizing: border-box !important;
 }
 
@@ -4804,6 +4804,16 @@ body.game-open {
 .mines-grid-new .cell { font-size: 1.9rem; border-radius: 14px; }
 .mines-cashout-btn { max-width: min(86vw, 400px); margin: 6px auto 0; }
 
-/* Настройки мин: контролы сверху, кнопка ИГРАТЬ у низа (чуть ниже середины) */
-.mines-settings-new { min-height: 58vh; }
-.mines-settings-new .mines-play-btn { margin-top: auto; }
+
+/* Мины/Ракетка: контролы сверху, "История игр" прижата к самому низу экрана */
+#mines-game.game-fullscreen,
+#rocket-game.game-fullscreen {
+    display: flex !important;
+    flex-direction: column;
+}
+#mines-game .history-open-btn,
+#rocket-game .history-open-btn {
+    margin-top: auto;
+    margin-bottom: calc(10px + env(safe-area-inset-bottom));
+    flex-shrink: 0;
+}
