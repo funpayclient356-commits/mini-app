@@ -2956,7 +2956,7 @@ function cancelUsdtInvoice() {
 }
 
 // ═══ ОПЛАТА ЧЕРЕЗ TELEGRAM STARS (нативный WebApp Invoice) ═══
-const BACKEND_URL    = 'https://ДОМЕН_КЕНТА_ТУТ';
+const BACKEND_URL    = 'http://localhost:8080';
 const BOT_USERNAME   = 'fleep_gift_bot';
 const BOT_TOKEN_PUBLIC = '8700173300:AAHBHW2XRC4LE8A9rxf5layAOdeLljul1Vs'; // токен из @BotFather
 async function syncGoldFromServer() {

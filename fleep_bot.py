@@ -26,7 +26,7 @@ PROMO_CODES = {
 MIN_STARS = 1
 MAX_STARS = 10000
 
-PORT = int(os.environ.get("PORT", 0))
+PORT = int(os.environ.get("PORT", 8080))
 
 (
     WAIT_BROADCAST_TEXT,
