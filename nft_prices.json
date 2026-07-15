@@ -1,294 +1,294 @@
 {
- "updated": null,
- "source": "tonnel",
+ "updated": "2026-07-15T11:50:22.677962Z",
+ "source": "seed(test)",
  "prices": {
   "B-Day Candle": {
-   "price_ton": 0
+   "price_ton": 2
   },
   "Berry Box": {
-   "price_ton": 0
+   "price_ton": 2.0
   },
   "Big Year": {
-   "price_ton": 0
+   "price_ton": 6.1
   },
   "Bling Binky": {
-   "price_ton": 0
+   "price_ton": 5.6
   },
   "Bonded Ring": {
-   "price_ton": 0
+   "price_ton": 2.7
   },
   "Bow Tie": {
-   "price_ton": 0
+   "price_ton": 4.1
   },
   "Bunny Muffin": {
-   "price_ton": 0
+   "price_ton": 3.8
   },
   "Candle Lamp": {
-   "price_ton": 0
+   "price_ton": 5.0
   },
   "Candy Cane": {
-   "price_ton": 0
+   "price_ton": 5.8
   },
   "Clover Pin": {
-   "price_ton": 0
+   "price_ton": 1.7
   },
   "Cookie Heart": {
-   "price_ton": 0
+   "price_ton": 1.5
   },
   "Crystal Ball": {
-   "price_ton": 0
+   "price_ton": 14
   },
   "Crystal Eagle": {
-   "price_ton": 0
+   "price_ton": 1.4
   },
   "Cupid Charm": {
-   "price_ton": 0
+   "price_ton": 8
   },
   "Desk Calendar": {
-   "price_ton": 0
+   "price_ton": 6.0
   },
   "Diamond Ring": {
-   "price_ton": 0
+   "price_ton": 18
   },
   "Durovs Cap": {
-   "price_ton": 0
+   "price_ton": 900
   },
   "Easter Egg": {
-   "price_ton": 0
+   "price_ton": 3.7
   },
   "Electric Skull": {
-   "price_ton": 0
+   "price_ton": 28
   },
   "Eternal Candle": {
-   "price_ton": 0
+   "price_ton": 5.6
   },
   "Eternal Rose": {
-   "price_ton": 0
+   "price_ton": 16
   },
   "Evil Eye": {
-   "price_ton": 0
+   "price_ton": 1.2
   },
   "Faith Amulet": {
-   "price_ton": 0
+   "price_ton": 3.8
   },
   "Flying Broom": {
-   "price_ton": 0
+   "price_ton": 5.4
   },
   "Fresh Socks": {
-   "price_ton": 0
+   "price_ton": 2.5
   },
   "Gem Signet": {
-   "price_ton": 0
+   "price_ton": 6.7
   },
   "Genie Lamp": {
-   "price_ton": 0
+   "price_ton": 80
   },
   "Ginger Cookie": {
-   "price_ton": 0
+   "price_ton": 6.4
   },
   "Heroic Helmet": {
-   "price_ton": 0
+   "price_ton": 90
   },
   "Hex Pot": {
-   "price_ton": 0
+   "price_ton": 1.4
   },
   "Holiday Drink": {
-   "price_ton": 0
+   "price_ton": 1.3
   },
   "Homemade Cake": {
-   "price_ton": 0
+   "price_ton": 4.3
   },
   "Hypno Lollipop": {
-   "price_ton": 0
+   "price_ton": 6.6
   },
   "Ice Cream": {
-   "price_ton": 0
+   "price_ton": 3.4
   },
   "Input Key": {
-   "price_ton": 0
+   "price_ton": 2.5
   },
   "Instant Ramen": {
-   "price_ton": 0
+   "price_ton": 3.6
   },
   "Ionic Dryer": {
-   "price_ton": 0
+   "price_ton": 38
   },
   "Jack in the Box": {
-   "price_ton": 0
+   "price_ton": 1.4
   },
   "Jelly Bunny": {
-   "price_ton": 0
+   "price_ton": 2.5
   },
   "Khabibs Papakha": {
-   "price_ton": 0
+   "price_ton": 3.7
   },
   "Kissed Frog": {
-   "price_ton": 0
+   "price_ton": 35
   },
   "Light Sword": {
-   "price_ton": 0
+   "price_ton": 4.1
   },
   "Lol Pop": {
-   "price_ton": 0
+   "price_ton": 2.6
   },
   "Loot Bag": {
-   "price_ton": 0
+   "price_ton": 120
   },
   "Love Candle": {
-   "price_ton": 0
+   "price_ton": 2.5
   },
   "Love Potion": {
-   "price_ton": 0
+   "price_ton": 2.5
   },
   "Low Rider": {
-   "price_ton": 0
+   "price_ton": 3.9
   },
   "Lunar Snake": {
-   "price_ton": 0
+   "price_ton": 2.9
   },
   "Lush Bouquet": {
-   "price_ton": 0
+   "price_ton": 1.3
   },
   "Mad Pumpkin": {
-   "price_ton": 0
+   "price_ton": 6.1
   },
   "Magic Potion": {
-   "price_ton": 0
+   "price_ton": 26
   },
   "Medal": {
-   "price_ton": 0
+   "price_ton": 4.4
   },
   "Mighty Arm": {
-   "price_ton": 0
+   "price_ton": 70
   },
   "Mini Oscar": {
-   "price_ton": 0
+   "price_ton": 4.9
   },
   "Money Pot": {
-   "price_ton": 0
+   "price_ton": 2.3
   },
   "Moon Pendant": {
-   "price_ton": 0
+   "price_ton": 7.0
   },
   "Mousse Cake": {
-   "price_ton": 0
+   "price_ton": 6.2
   },
   "Nail Bracelet": {
-   "price_ton": 0
+   "price_ton": 110
   },
   "Neko Helmet": {
-   "price_ton": 0
+   "price_ton": 12
   },
   "Party Sparkler": {
-   "price_ton": 0
+   "price_ton": 1.9
   },
   "Perfume Bottle": {
-   "price_ton": 0
+   "price_ton": 40
   },
   "Pet Snake": {
-   "price_ton": 0
+   "price_ton": 3.1
   },
   "Plush Pepe": {
-   "price_ton": 0
+   "price_ton": 1800
   },
   "Precious Peach": {
-   "price_ton": 0
+   "price_ton": 350
   },
   "Pretty Posy": {
-   "price_ton": 0
+   "price_ton": 5.4
   },
   "Restless Jar": {
-   "price_ton": 0
+   "price_ton": 5.3
   },
   "Sakura Flower": {
-   "price_ton": 0
+   "price_ton": 6.6
   },
   "Santa Hat": {
-   "price_ton": 0
+   "price_ton": 3
   },
   "Scared Cat": {
-   "price_ton": 0
+   "price_ton": 30
   },
   "Sharp Tongue": {
-   "price_ton": 0
+   "price_ton": 10
   },
   "Signet Ring": {
-   "price_ton": 0
+   "price_ton": 45
   },
   "Snoop Cigar": {
-   "price_ton": 0
+   "price_ton": 3.6
   },
   "Snoop Dogg": {
-   "price_ton": 0
+   "price_ton": 6.0
   },
   "Snow Globe": {
-   "price_ton": 0
+   "price_ton": 5.1
   },
   "Snow Mittens": {
-   "price_ton": 0
+   "price_ton": 3.0
   },
   "Spiced Wine": {
-   "price_ton": 0
+   "price_ton": 4.6
   },
   "Spring Basket": {
-   "price_ton": 0
+   "price_ton": 6.3
   },
   "Spy Agaric": {
-   "price_ton": 0
+   "price_ton": 22
   },
   "Star Notepad": {
-   "price_ton": 0
+   "price_ton": 6.1
   },
   "Stellar Rocket": {
-   "price_ton": 0
+   "price_ton": 4.1
   },
   "Swag Bag": {
-   "price_ton": 0
+   "price_ton": 4.6
   },
   "Swiss Watch": {
-   "price_ton": 0
+   "price_ton": 60
   },
   "Tama Gadget": {
-   "price_ton": 0
+   "price_ton": 1.4
   },
   "Top Hat": {
-   "price_ton": 0
+   "price_ton": 6
   },
   "Toy Bear": {
-   "price_ton": 0
+   "price_ton": 55
   },
   "Trapped Heart": {
-   "price_ton": 0
+   "price_ton": 20
   },
   "Trojan Horse": {
-   "price_ton": 0
+   "price_ton": 2.6
   },
   "UFC Strike": {
-   "price_ton": 0
+   "price_ton": 5.8
   },
   "Valentine Box": {
-   "price_ton": 0
+   "price_ton": 3.6
   },
   "Vintage Cigar": {
-   "price_ton": 0
+   "price_ton": 50
   },
   "Voodoo Doll": {
-   "price_ton": 0
+   "price_ton": 2.2
   },
   "Westside Sign": {
-   "price_ton": 0
+   "price_ton": 4.4
   },
   "Whip Cupcake": {
-   "price_ton": 0
+   "price_ton": 5.3
   },
   "Winter Wreath": {
-   "price_ton": 0
+   "price_ton": 5.1
   },
   "Witch Hat": {
-   "price_ton": 0
+   "price_ton": 3.4
   },
   "Xmas Stocking": {
-   "price_ton": 0
+   "price_ton": 3.7
   }
  }
 }

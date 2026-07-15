@@ -2168,6 +2168,7 @@ function updateInventory() {
                 '<div class="inv-gift-emoji">'+giftIcon(g.type,52)+'</div>'+
                 '<div class="inv-gift-name">'+(g.name||'Подарок')+'</div>'+
                 '<div class="inv-gift-value"><span>🟡</span><span>'+(g.minValue||g.value||0)+'</span></div>'+
+                (function(){var t=g.priceTon||(window.NFT_PRICES&&window.NFT_PRICES[g.name]&&window.NFT_PRICES[g.name].price_ton);return t?'<div class="inv-gift-value" style="color:#4fc3f7"><span>💎</span><span>'+t+' TON</span></div>':'';})()+
                 (!isSold ? '<div style="font-size:0.6rem;color:#555;margin-top:6px;">нажми для управления</div>' : '');
             if (!isSold) card.onclick = () => showManageGiftModal(g.id);
             grid.appendChild(card);
