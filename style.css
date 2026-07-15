@@ -4648,3 +4648,20 @@ body.game-open {
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
     z-index: 3;
 }
+
+/* ===== Красивые анимации (доп.) ===== */
+@keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+@keyframes shineSweep { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+@keyframes popIn { 0%{transform:scale(.7);opacity:0} 60%{transform:scale(1.08)} 100%{transform:scale(1);opacity:1} }
+@keyframes glowPulse { 0%,100%{filter:drop-shadow(0 0 4px rgba(252,211,77,.4))} 50%{filter:drop-shadow(0 0 16px rgba(252,211,77,.9))} }
+@keyframes spinPrizePulse { 0%{transform:scale(.5) rotate(-12deg);opacity:0} 55%{transform:scale(1.15) rotate(4deg);opacity:1} 100%{transform:scale(1) rotate(0)} }
+
+.inv-gift-emoji { animation: floatY 3s ease-in-out infinite; }
+.inv-gift-card { transition: transform .18s ease, box-shadow .18s ease; }
+.inv-gift-card:active { transform: scale(.96); }
+.inv-gift-card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,.35); }
+.case-odds-emoji { display:inline-block; animation: floatY 3.4s ease-in-out infinite; }
+#new-gift-icon { animation: popIn .5s cubic-bezier(.2,1.3,.4,1) both, glowPulse 2.2s ease-in-out 0.5s infinite; }
+.spin-prize-icon { animation: spinPrizePulse .6s cubic-bezier(.2,1.4,.4,1) both; }
+.case-card { transition: transform .2s ease, box-shadow .2s ease; }
+.case-card:hover { transform: translateY(-4px) scale(1.02); }
