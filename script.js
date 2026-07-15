@@ -1518,10 +1518,10 @@ function updateDailyBonusButton() {
 
 // ===== ЗАДАНИЯ =====
 const TASKS = {
-    1: { name:'Пополнить баланс', target:1, reward:15,  rewardType:'gold',   type:'deposit100'  },
-    2: { name:'Мины',             target:5, reward:10,  rewardType:'silver', type:'minesPlayed' },
-    3: { name:'Ракетка',          target:5, reward:10,  rewardType:'silver', type:'rocketPlayed'},
-    4: { name:'Кейсы',            target:5, reward:10,  rewardType:'silver', type:'casesOpened' },
+    1: { name:'Заряди казну',     target:1, reward:50,  rewardType:'gold',   type:'deposit100'  },
+    2: { name:'Сапёр-миллионер',  target:5, reward:25,  rewardType:'silver', type:'minesPlayed' },
+    3: { name:'Космо-кэшаут',     target:5, reward:25,  rewardType:'silver', type:'rocketPlayed'},
+    4: { name:'Охотник за NFT',   target:5, reward:0,   rewardType:'nft',    type:'casesOpened' },
 };
 
 function getTaskProgress(id) {
@@ -1550,12 +1550,30 @@ function updateTasks() {
     let c=0,r=0; for(let i=1;i<=4;i++){if(userData.tasks[i]){c++;r+=TASKS[i].reward;}}
     const tc=document.getElementById('tasks-completed'); if(tc)tc.textContent=c;
     const tr=document.getElementById('total-rewards');   if(tr)tr.textContent=r;
+    const qh=document.getElementById('quest-hero-count'); if(qh)qh.textContent=c+'/4';
 }
 
 function claimTaskReward(id) {
     if (userData.tasks[id] || getTaskProgress(id) < TASKS[id].target) return;
     userData.tasks[id] = true;
     const task = TASKS[id];
+    if (task.rewardType==='nft') {
+        // NFT-дроп в инвентарь — главный крючок квестов
+        let g = null;
+        if (typeof NFT_GIFTS !== 'undefined' && NFT_GIFTS.length) {
+            g = NFT_GIFTS[Math.floor(Math.random()*NFT_GIFTS.length)];
+        }
+        if (!userData.inventory) userData.inventory = [];
+        if (g) {
+            userData.inventory.push({ type:g.type, name:g.name, img:g.img, value: 100, minValue: 0 });
+        }
+        saveUserData(); updateTasks();
+        if (typeof updateInventory==='function') updateInventory();
+        if (typeof updateProfileGifts==='function') updateProfileGifts();
+        if (typeof celebrateBigWin==='function') { try{ celebrateBigWin('legendary', true); }catch(e){} }
+        if (typeof showNotif==='function') showNotif('🎁 NFT «'+(g?g.name:'подарок')+'» в инвентаре!','#a855f7');
+        return;
+    }
     if (task.rewardType==='gold') userData.balance.gold=(userData.balance.gold||0)+task.reward;
     else userData.balance.silver += task.reward;
     saveUserData(); updateBalance(); updateTasks();

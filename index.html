@@ -15,7 +15,7 @@
     </style>
     <title>Fleep Gift</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="style.css?v=40">
+    <link rel="stylesheet" href="style.css?v=41">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -315,8 +315,16 @@
         </div>
         <div id="tasks-section" class="content-section">
             <div style="padding:20px 14px 0;text-align:center;">
-                <div style="font-size:0.68rem;font-weight:800;color:#7b5cff;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">ЗАДАНИЯ</div>
-                <div style="font-size:0.78rem;color:#555;margin-bottom:16px;">Выполняй и получай монеты</div>
+                <div style="font-size:0.68rem;font-weight:800;color:#7b5cff;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;">🔥 КВЕСТЫ ДНЯ</div>
+                <div style="font-size:0.78rem;color:#8a8a9a;margin-bottom:14px;">Фарми <b style="color:#fcd34d;">F</b> и лови редкие <b style="color:#a855f7;">NFT</b> каждый день</div>
+                <div class="quest-hero">
+                    <div class="quest-hero-emoji">💎</div>
+                    <div class="quest-hero-txt">
+                        <div class="quest-hero-title">Пройди все квесты</div>
+                        <div class="quest-hero-sub">Забери NFT-дроп в финале 🎁</div>
+                    </div>
+                    <div class="quest-hero-badge" id="quest-hero-count">0/4</div>
+                </div>
                 <div style="display:flex;gap:8px;margin-bottom:20px;">
                     <div class="prf-stat-card" style="flex:1;padding:12px 8px;text-align:center;">
                         <div class="prf-stat-val" id="tasks-completed" style="font-size:1.3rem;">0</div>
@@ -332,10 +340,10 @@
 
                 <div class="task-card-prf" id="task-1">
                     <div class="task-card-left">
-                        <div class="task-card-ico">💰</div>
+                        <div class="task-card-ico">💎</div>
                         <div class="task-card-info">
-                            <div class="task-card-name">Пополнить баланс</div>
-                            <div class="task-card-desc">Пополнить &gt;100 монет</div>
+                            <div class="task-card-name">Заряди казну</div>
+                            <div class="task-card-desc">Закинь на баланс 100+ монет</div>
                             <div class="task-card-bar-row">
                                 <div class="task-card-bar"><div class="task-card-fill" id="task-1-progress"></div></div>
                                 <span class="task-card-prog" id="task-1-text">0/1</span>
@@ -343,7 +351,7 @@
                         </div>
                     </div>
                     <div class="task-card-right">
-                        <div class="task-card-rew">+15 🟡</div>
+                        <div class="task-card-rew">+50 🟡</div>
                         <button class="task-card-btn" id="task-1-btn" onclick="claimTaskReward(1)" disabled>Забрать</button>
                     </div>
                 </div>
@@ -352,8 +360,8 @@
                     <div class="task-card-left">
                         <div class="task-card-ico">💣</div>
                         <div class="task-card-info">
-                            <div class="task-card-name">Мины</div>
-                            <div class="task-card-desc">Сыграть в мины 5 раз</div>
+                            <div class="task-card-name">Сапёр-миллионер</div>
+                            <div class="task-card-desc">Пройди 5 партий в Минах</div>
                             <div class="task-card-bar-row">
                                 <div class="task-card-bar"><div class="task-card-fill" id="task-2-progress"></div></div>
                                 <span class="task-card-prog" id="task-2-text">0/5</span>
@@ -370,8 +378,8 @@
                     <div class="task-card-left">
                         <div class="task-card-ico">🚀</div>
                         <div class="task-card-info">
-                            <div class="task-card-name">Ракетка</div>
-                            <div class="task-card-desc">Сыграть в ракетку 5 раз</div>
+                            <div class="task-card-name">Космо-кэшаут</div>
+                            <div class="task-card-desc">Улети 5 раз в Ракетке</div>
                             <div class="task-card-bar-row">
                                 <div class="task-card-bar"><div class="task-card-fill" id="task-3-progress"></div></div>
                                 <span class="task-card-prog" id="task-3-text">0/5</span>
@@ -388,8 +396,8 @@
                     <div class="task-card-left">
                         <div class="task-card-ico">🎁</div>
                         <div class="task-card-info">
-                            <div class="task-card-name">Кейсы</div>
-                            <div class="task-card-desc">Открыть платный кейс 5 раз</div>
+                            <div class="task-card-name">Охотник за NFT</div>
+                            <div class="task-card-desc">Вскрой 5 платных кейсов</div>
                             <div class="task-card-bar-row">
                                 <div class="task-card-bar"><div class="task-card-fill" id="task-4-progress"></div></div>
                                 <span class="task-card-prog" id="task-4-text">0/5</span>
@@ -397,7 +405,7 @@
                         </div>
                     </div>
                     <div class="task-card-right">
-                        <div class="task-card-rew">+10 F</div>
+                        <div class="task-card-rew task-card-rew-nft">🎁 NFT</div>
                         <button class="task-card-btn" id="task-4-btn" onclick="claimTaskReward(4)" disabled>Забрать</button>
                     </div>
                 </div>
@@ -598,7 +606,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=44"></script>
+    <script src="script.js?v=45"></script>
     <script src="nft_gifts.js?v=3"></script>
 
 

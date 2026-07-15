@@ -4154,6 +4154,41 @@ body[style*="background"] {
     white-space: nowrap;
     box-shadow: 0 2px 8px rgba(252,211,77,0.12);
 }
+.task-card-rew-nft {
+    color: #e9d5ff;
+    background: linear-gradient(135deg, rgba(168,85,247,0.28), rgba(123,92,255,0.12));
+    border: 1px solid rgba(168,85,247,0.5);
+    box-shadow: 0 2px 12px rgba(168,85,247,0.28);
+    animation: nftRewGlow 1.9s ease-in-out infinite;
+}
+@keyframes nftRewGlow { 0%,100%{box-shadow:0 2px 10px rgba(168,85,247,0.25)} 50%{box-shadow:0 2px 20px rgba(168,85,247,0.6)} }
+
+/* Баннер-завлекалка сверху квестов */
+.quest-hero {
+    display: flex; align-items: center; gap: 11px;
+    padding: 12px 13px; margin-bottom: 16px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(168,85,247,0.22), rgba(123,92,255,0.10) 55%, rgba(252,211,77,0.10));
+    border: 1px solid rgba(168,85,247,0.35);
+    box-shadow: 0 6px 22px rgba(123,92,255,0.22);
+    position: relative; overflow: hidden;
+}
+.quest-hero::after {
+    content:''; position:absolute; top:-60%; left:-30%; width:50%; height:220%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+    transform: rotate(18deg); animation: questShine 3.2s ease-in-out infinite;
+}
+@keyframes questShine { 0%{left:-40%} 60%,100%{left:130%} }
+.quest-hero-emoji { font-size: 1.9rem; filter: drop-shadow(0 2px 6px rgba(168,85,247,0.5)); animation: floatY 2.6s ease-in-out infinite; }
+.quest-hero-txt { flex:1; text-align:left; }
+.quest-hero-title { font-size: 0.9rem; font-weight: 900; color:#fff; }
+.quest-hero-sub { font-size: 0.72rem; color:#c9b8ff; margin-top:1px; }
+.quest-hero-badge {
+    font-size: 0.82rem; font-weight: 900; color:#fff;
+    background: linear-gradient(135deg,#a855f7,#7b5cff);
+    border-radius: 999px; padding: 5px 12px;
+    box-shadow: 0 3px 12px rgba(168,85,247,0.5);
+}
 .task-card-btn {
     padding: 8px 16px;
     border-radius: 11px;
