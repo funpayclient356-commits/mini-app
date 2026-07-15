@@ -182,6 +182,13 @@ function updateHeaderUsername() {
     } else {
         el.textContent = 'PLAYER';
     }
+    // Аватарка Telegram в шапке главного меню (как в профиле)
+    if (tgUser?.photo_url) {
+        const img = document.getElementById('header-tg-photo');
+        const em  = document.getElementById('header-avatar-emoji');
+        if (img) { img.src = tgUser.photo_url; img.style.display = 'block'; }
+        if (em)  { em.style.display = 'none'; }
+    }
 }
 
 function simulateOnlineCounts() {
@@ -2316,7 +2323,63 @@ function openCase(type) {
             : `${winner.value} F`;
 
         if (spinResult) spinResult.style.display = 'block';
+
+        // 🎉 Мини-анимация празднования для дорогого дропа
+        const tier = winner.tier || 'common';
+        const pricey = winner.isNFT || tier === 'legendary' || tier === 'epic' || (winner.value || 0) >= 100;
+        if (pricey) celebrateBigWin(tier, winner.isNFT);
     }, 4700);
+}
+
+// Празднование редкого дропа: конфетти + вспышка + сияние
+function celebrateBigWin(tier, isNFT) {
+    const host = document.getElementById('case-open-modal') || document.body;
+    if (!host) return;
+    const palette = isNFT || tier === 'legendary'
+        ? ['#fbbf24','#f59e0b','#fff7c2','#ffd54f','#ff8a65']
+        : tier === 'epic'
+            ? ['#a855f7','#c084fc','#e9d5ff','#7c3aed','#f0abfc']
+            : ['#60a5fa','#3b82f6','#bfdbfe','#818cf8','#a78bfa'];
+
+    // Вспышка
+    const flash = document.createElement('div');
+    flash.style.cssText = 'position:absolute;inset:0;z-index:40;pointer-events:none;border-radius:inherit;'
+        + 'background:radial-gradient(circle at 50% 42%,'+palette[0]+'55,transparent 60%);'
+        + 'animation:bwFlash .7s ease-out forwards;';
+    host.appendChild(flash);
+
+    // Лучи-сияние за призом
+    const rays = document.createElement('div');
+    rays.style.cssText = 'position:absolute;left:50%;top:42%;width:340px;height:340px;margin:-170px 0 0 -170px;z-index:41;'
+        + 'pointer-events:none;background:conic-gradient(from 0deg,'+palette[0]+'00,'+palette[0]+'66,'+palette[0]+'00,'+palette[1]+'55,'+palette[0]+'00);'
+        + 'border-radius:50%;filter:blur(2px);opacity:0;animation:bwRays 2.4s ease-out forwards;';
+    host.appendChild(rays);
+
+    // Конфетти
+    const layer = document.createElement('div');
+    layer.style.cssText = 'position:absolute;inset:0;z-index:42;pointer-events:none;overflow:hidden;border-radius:inherit;';
+    const N = (isNFT || tier === 'legendary') ? 90 : 60;
+    for (let i = 0; i < N; i++) {
+        const p = document.createElement('div');
+        const c = palette[Math.floor(Math.random()*palette.length)];
+        const left = Math.random()*100;
+        const dur = 1.6 + Math.random()*1.6;
+        const delay = Math.random()*0.5;
+        const size = 6 + Math.random()*8;
+        const rnd = (Math.random()*260-130).toFixed(0);
+        const round = Math.random() < 0.35 ? '50%' : '2px';
+        p.style.cssText = 'position:absolute;top:-24px;left:'+left+'%;width:'+size+'px;height:'+(size*0.5+3)+'px;'
+            + 'background:'+c+';border-radius:'+round+';opacity:0;--dx:'+rnd+'px;'
+            + 'animation:bwConfetti '+dur+'s cubic-bezier(.2,.7,.3,1) '+delay+'s forwards;';
+        layer.appendChild(p);
+    }
+    host.appendChild(layer);
+
+    if (window.Telegram?.WebApp?.HapticFeedback) {
+        try { window.Telegram.WebApp.HapticFeedback.notificationOccurred('success'); } catch(e){}
+    }
+
+    setTimeout(() => { flash.remove(); rays.remove(); layer.remove(); }, 3600);
 }
 
 function claimCasePrize() {

@@ -4817,3 +4817,12 @@ body.game-open {
     margin-bottom: calc(10px + env(safe-area-inset-bottom));
     flex-shrink: 0;
 }
+
+/* 🎉 Празднование дорогого дропа в кейсах */
+@keyframes bwFlash { 0%{opacity:0} 25%{opacity:1} 100%{opacity:0} }
+@keyframes bwRays { 0%{opacity:0;transform:rotate(0) scale(.6)} 20%{opacity:.85} 100%{opacity:0;transform:rotate(160deg) scale(1.25)} }
+@keyframes bwConfetti {
+    0%   { opacity:0; transform:translate(0,0) rotate(0deg); }
+    10%  { opacity:1; }
+    100% { opacity:0; transform:translate(var(--dx), 115vh) rotate(720deg); }
+}
