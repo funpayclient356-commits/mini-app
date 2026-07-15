@@ -1731,7 +1731,7 @@ function selectCase(type) {
             const tierLabel = {'rare':'Редкий','epic':'Эпический','legendary':'Легендарный'}[g.tier] || 'Обычный';
             el.innerHTML =
                 '<div class="case-odds-left">'
-                + '<span class="case-odds-emoji">' + g.emoji + '</span>'
+                + '<span class="case-odds-emoji">' + (typeof giftIcon==='function' ? giftIcon(g.type,28) : g.emoji) + '</span>'
                 + '<div><div class="case-odds-name">' + g.name
                 + ' <span style="font-size:0.55rem;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,0.07);color:' + tierColor + ';font-weight:800;">' + tierLabel + '</span></div>'
                 + '<div class="case-odds-val">' + g.value + ' F</div></div>'
@@ -2041,7 +2041,7 @@ function openCase(type) {
             : '';
 
         el.innerHTML = `
-            <span style="font-size:2.2rem;line-height:1;">${emoji}</span>
+            <span style="font-size:2.2rem;line-height:1;">${typeof giftIcon==='function'?giftIcon(g.type,40):emoji}</span>
             <span style="font-size:0.58rem;color:${g.tier==='legendary'?'#fbbf24':g.tier==='epic'?'#a855f7':g.tier==='rare'?'#60a5fa':'#a98fff'};font-weight:700;">${valLabel}</span>
             ${tierBadge}
         `;
@@ -2336,7 +2336,7 @@ function showManageGiftModal(giftId) {
     // Build HTML without nested template literals
     const handle = '<div style="width:40px;height:4px;background:#2a2a3a;border-radius:2px;margin:0 auto 20px;"></div>';
     const giftInfo = '<div style="text-align:center;margin-bottom:20px;">'
-        + '<div style="font-size:3.5rem;margin-bottom:10px;">' + emoji + '</div>'
+        + '<div style="font-size:3.5rem;margin-bottom:10px;">' + (typeof giftIcon==='function'?giftIcon(gift.type,72):emoji) + '</div>'
         + '<div style="font-size:1.1rem;font-weight:900;color:#fff;margin-bottom:4px;">' + (gift.name||'Подарок') + '</div>'
         + '<div style="font-size:0.78rem;color:#7b5cff;margin-bottom:12px;">Стоимость: <b style="color:#fcd34d">' + (gift.value||0) + ' F</b></div>'
         + '</div>';
