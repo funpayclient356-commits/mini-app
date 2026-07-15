@@ -2124,9 +2124,10 @@ function openCase(type) {
         const prizeIcon  = document.getElementById('spin-prize-icon');
         const prizeName  = document.getElementById('spin-prize-name');
         const prizeValue = document.getElementById('spin-prize-value');
+        const winIconHtml = (typeof giftIcon==='function') ? giftIcon(winner.type, winner.isNFT?72:80) : `<span style="font-size:4rem">${winner.emoji}</span>`;
         if (prizeIcon)  prizeIcon.innerHTML  = winner.isNFT
-            ? `<span style="font-size:3.5rem">${winner.emoji}</span><span style="font-size:0.7rem;display:block;background:#a855f7;color:#fff;padding:2px 8px;border-radius:6px;margin-top:4px;font-weight:900;">NFT</span>`
-            : `<span style="font-size:4rem">${winner.emoji}</span>`;
+            ? `${winIconHtml}<span style="font-size:0.7rem;display:block;background:#a855f7;color:#fff;padding:2px 8px;border-radius:6px;margin-top:4px;font-weight:900;">NFT</span>`
+            : winIconHtml;
         if (prizeName)  prizeName.textContent  = winner.name;
         if (prizeValue) prizeValue.textContent = winner.isNFT
             ? `⭐ ${winner.stars || winner.value} Stars`
